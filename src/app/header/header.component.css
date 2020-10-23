@@ -1,0 +1,29 @@
+.toolbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ecf0f1;
+    color: #7f8c8d;
+    font-weight: 600;
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+
+  }
+
+  .toolbar img {
+    margin-left: 5px;
+  }
+
+  .toolbar .tools {
+    margin-right: 5px;
+    cursor: pointer;
+  }
+
+  .toolbar .tools:hover {
+    opacity: 0.8;
+  }
