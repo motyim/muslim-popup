@@ -1,0 +1,19 @@
+
+{
+    "name": "Muslim Popup",
+    "version": "1.0",
+    "description": "test angular popup",
+    "manifest_version": 2,
+    "browser_action": {
+        "default_popup": "index.html"
+    },
+    "commands": {
+        "_execute_browser_action": {
+          "suggested_key": {
+            "default": "Ctrl+Shift+L",
+            "mac": "MacCtrl+Shift+L"
+          },
+          "description": "Opens Muslim app"
+        }
+    }
+}
