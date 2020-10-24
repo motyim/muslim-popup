@@ -5,11 +5,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PrayerBoxComponent } from './prayer-box/prayer-box.component';
+import { QuranBoxComponent } from './quran-box/quran-box.component';
+import { LinkBoxComponent } from './link-box/link-box.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    PrayerBoxComponent,
+    QuranBoxComponent,
+    LinkBoxComponent
   ],
   imports: [
     BrowserModule,

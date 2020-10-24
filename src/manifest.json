@@ -1,11 +1,16 @@
 
 {
     "name": "Muslim Popup",
-    "version": "1.0",
-    "description": "test angular popup",
+    "version": "0.0.1",
+    "description": "Beta muslim pop extension",
     "manifest_version": 2,
     "browser_action": {
-        "default_popup": "index.html"
+        "default_popup": "index.html",
+        "default_icon": {
+          "16": "assets/muslim-16.png",
+          "32": "assets/muslim-32.png",
+          "128": "assets/muslim-128.png"
+        }
     },
     "commands": {
         "_execute_browser_action": {
