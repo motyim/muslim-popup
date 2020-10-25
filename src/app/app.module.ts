@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PrayerBoxComponent } from './prayer-box/prayer-box.component';
 import { QuranBoxComponent } from './quran-box/quran-box.component';
 import { LinkBoxComponent } from './link-box/link-box.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { LinkBoxComponent } from './link-box/link-box.component';
     HeaderComponent,
     PrayerBoxComponent,
     QuranBoxComponent,
-    LinkBoxComponent
+    LinkBoxComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
