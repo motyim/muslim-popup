@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {QuranService} from '../services/quran.service';
+
 
 @Component({
   selector: 'app-quran-box',
@@ -7,13 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuranBoxComponent implements OnInit {
 
-  ayah : string = "ثُمَّ بَعَثْنَاكُمْ مِنْ بَعْدِ مَوْتِكُمْ لَعَلَّكُمْ تَشْكُرُونَ";
-  surah : string = "البقره";
-  surahNumber : number = 1;
-  ayahNumberInSurah : number = 1 ;
-  constructor() { }
+  ayah: string;
+  surah: string;
+  surahNumber: number;
+  ayahNumberInSurah: number;
+
+  constructor(private quranService: QuranService) {
+  }
+
 
   ngOnInit(): void {
+    this.quranService.getAyah().then(value => {
+      value.subscribe(response => {
+          // @ts-ignore
+          this.ayah = response.data.text;
+          // @ts-ignore
+          this.surah = response.data.surah.name;
+          // @ts-ignore
+          this.surahNumber = response.data.surah.number;
+          // @ts-ignore
+          this.ayahNumberInSurah = response.data.numberInSurah;
+        });
+    });
   }
 
 }

@@ -20,5 +20,14 @@
           },
           "description": "Opens Muslim app"
         }
-    }
+    },
+  "permissions": [
+    "storage"
+  ],
+  "background": {
+    "scripts": [
+      "background.js",
+      "runtime.js"
+    ]
+  }
 }

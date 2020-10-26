@@ -22,7 +22,7 @@ svg.material-icons {
     border-radius: 4px;
     border: 1px solid #eee;
     background-color: #fafafa;
-    height: 40px;
+    min-height: 40px;
     width: 200px;
     margin: 0 8px 16px;
     padding: 16px;
@@ -72,3 +72,4 @@ svg.material-icons {
   .card.card.highlight-card span {
     margin-left: 60px;
   }
+.default {cursor: default;}

@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  QuranURL: 'http://api.alquran.cloud/v1/ayah/'
 };
 
 /*
