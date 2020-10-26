@@ -22,7 +22,8 @@
         }
     },
   "permissions": [
-    "storage"
+    "storage",
+    "geolocation"
   ],
   "background": {
     "scripts": [

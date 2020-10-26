@@ -11,12 +11,12 @@ export class StorageService {
   }
 
   save(value): void {
-    chrome.storage.sync.set({ayahNumber: (++value)});
+    chrome.storage.local.set({ayahNumber: (++value)});
   }
 
   get(key): any {
     return new Promise((resolve) => {
-      chrome.storage.sync.get(['ayahNumber'], (result) => {
+      chrome.storage.local.get(['ayahNumber'], (result) => {
         resolve(result.ayahNumber);
       });
     });
