@@ -12,6 +12,8 @@ import { PrayerBoxComponent } from './prayer-box/prayer-box.component';
 import { QuranBoxComponent } from './quran-box/quran-box.component';
 import { LinkBoxComponent } from './link-box/link-box.component';
 import { FooterComponent } from './footer/footer.component';
+import { MainviewComponent } from './mainview/mainview.component';
+import { AboutviewComponent } from './aboutview/aboutview.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { FooterComponent } from './footer/footer.component';
     PrayerBoxComponent,
     QuranBoxComponent,
     LinkBoxComponent,
-    FooterComponent
+    FooterComponent,
+    MainviewComponent,
+    AboutviewComponent
   ],
   imports: [
     BrowserModule,
