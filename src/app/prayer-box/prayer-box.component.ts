@@ -18,6 +18,7 @@ export class PrayerBoxComponent implements OnInit {
   rSec: number;
   rMin: number;
   rHour: number;
+  prayTimeNow: boolean;
 
   constructor(private prayer: PrayerService) {
   }
@@ -30,11 +31,16 @@ export class PrayerBoxComponent implements OnInit {
       value.subscribe(res => {
         // @ts-ignore
         const dayData = res.data[day - 1];
-        // console.log(dayData);
         // @ts-ignore
         this.arabicDate = this.getHijreDate(dayData.date.hijri);
         // @ts-ignore
-        const nextPray = this.getNextPray(dayData.timings);
+        let nextPray = this.getNextPray(dayData.timings);
+
+        if (!nextPray) {
+          // @ts-ignore
+          nextPray = this.getFirstPraySecondDay(res.data[day].timings);
+        }
+
         this.printPrayInfo(nextPray);
       });
     });
@@ -43,10 +49,10 @@ export class PrayerBoxComponent implements OnInit {
   private printPrayInfo(nextPray: Pray): void {
     this.prayName = nextPray.name;
     this.min = nextPray.min;
-    this.mood = nextPray.hour > 12 ? 'PM' : 'AM';
+    this.mood = nextPray.hour >= 12 ? 'PM' : 'AM';
     this.hour = nextPray.hour % 12 || 12;
 
-    //set remin tine
+    // set remain time
     const date = new Date();
     date.setHours(nextPray.hour, nextPray.min);
     const countDownDate = date.getTime();
@@ -67,10 +73,11 @@ export class PrayerBoxComponent implements OnInit {
 
       // Display the result in the element with id="demo"
       this.displayRemianTime(hours, minutes, seconds);
-
+      this.prayTimeNow = false;
       // If the count down is finished, write some text
       if (distance < 0) {
         clearInterval(timer);
+        this.prayTimeNow = true;
         this.displayRemianTime(0, 0, 0);
       }
     }, 1000);
@@ -101,11 +108,13 @@ export class PrayerBoxComponent implements OnInit {
 
 
     for (const key in mainPrayers) {
-      console.log(mainPrayers[key]);
       const prayTime = timing[mainPrayers[key]];
-      console.log(prayTime);
-      //@ts-ignore
-      if (hours <= this.getHour(prayTime) && mins <= this.getMin(prayTime)) {
+
+      console.log(`hours <= this.getHour(prayTime) = ${hours <= this.getHour(prayTime)} && mins <= this.getMin(prayTime) = ${mins <= this.getMin(prayTime)}`);
+      console.log(`${hours} <= ${this.getHour(prayTime)}  && ${mins} <= ${this.getMin(prayTime)} `);
+
+      // @ts-ignore
+      if (hours < this.getHour(prayTime) || (hours === this.getHour(prayTime) && mins <= this.getMin(prayTime))) {
         console.log(`>>hour ${this.getHour(prayTime)}`);
         return {
           name: arabicPrayers[key],
@@ -125,5 +134,15 @@ export class PrayerBoxComponent implements OnInit {
 
   private getMin(str: string): number {
     return parseInt(str.substr(3, 6), 10);
+  }
+
+  private getFirstPraySecondDay(timings): Pray {
+    const key = 'Fajr';
+    const praytime = timings[key];
+    return {
+      name: 'الفجر ( غدا )',
+      hour: this.getHour(praytime),
+      min: this.getMin(praytime)
+    };
   }
 }
