@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CountdownModule } from 'ngx-countdown';
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,7 +27,8 @@ import { FooterComponent } from './footer/footer.component';
     AppRoutingModule,
     FontAwesomeModule,
     HttpClientModule,
-    CountdownModule
+    CountdownModule,
+    LoggerModule.forRoot({ level: NgxLoggerLevel.DEBUG})
   ],
   providers: [],
   bootstrap: [AppComponent]

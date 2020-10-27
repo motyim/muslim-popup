@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PrayerService} from '../services/prayer.service';
 import {Pray} from '../model/pray';
 import {CountdownEvent} from 'ngx-countdown';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-prayer-box',
@@ -19,14 +20,13 @@ export class PrayerBoxComponent implements OnInit {
   prayTimeNow: boolean;
   leftTime: number;
 
-  constructor(private prayer: PrayerService) {
-    this.leftTime = 0;
+  constructor(private prayer: PrayerService, private logger: NGXLogger) {
   }
 
   ngOnInit(): void {
     const d = new Date();
     const day = d.getDate();
-    console.log(day);
+    this.logger.debug('today number ', day);
     this.prayer.getParyerTime(5, d.getMonth() + 1, d.getFullYear()).then(value => {
       value.subscribe(res => {
         // @ts-ignore
@@ -37,8 +37,10 @@ export class PrayerBoxComponent implements OnInit {
         let nextPray = this.getNextPray(dayData.timings);
 
         if (!nextPray) {
+          this.logger.debug('get next pray for tomorrow ');
           // @ts-ignore
           nextPray = this.getFirstPraySecondDay(res.data[day].timings);
+          // TODO : handle if the last day in month
         }
 
         this.printPrayInfo(nextPray);
@@ -54,12 +56,14 @@ export class PrayerBoxComponent implements OnInit {
 
     // set remain time
     const date = new Date();
-    date.setHours(nextPray.hour, nextPray.min);
+    date.setHours(nextPray.hour, nextPray.min, 0);
     const countDownDate = date.getTime();
 
     const now = new Date().getTime();
     const distance = countDownDate - now;
+    this.logger.debug(`distance time :  ${distance}`);
     this.leftTime = distance / 1000;
+    this.logger.debug(`left time : ${this.leftTime}`);
     this.prayTimeNow = false;
   }
 
@@ -81,19 +85,20 @@ export class PrayerBoxComponent implements OnInit {
     const mins = date.getMinutes();
 
 
+    // tslint:disable-next-line:forin
     for (const key in mainPrayers) {
       const prayTime = timing[mainPrayers[key]];
 
-      console.log(`hours <= this.getHour(prayTime) = ${hours <= this.getHour(prayTime)} && mins <= this.getMin(prayTime) = ${mins <= this.getMin(prayTime)}`);
-      console.log(`${hours} <= ${this.getHour(prayTime)}  && ${mins} <= ${this.getMin(prayTime)} `);
+      const prayHour = this.getHour(prayTime);
+      const prayMin = this.getMin(prayTime);
 
-      // @ts-ignore
-      if (hours < this.getHour(prayTime) || (hours === this.getHour(prayTime) && mins <= this.getMin(prayTime))) {
-        console.log(`>>hour ${this.getHour(prayTime)}`);
+      this.logger.debug(`hours:${hours},prayHour:${prayHour},mins:${mins},prayMin:${prayMin}`);
+      this.logger.debug(hours < prayHour || (hours === prayHour && mins <= prayMin));
+      if (hours < prayHour || (hours === prayHour && mins <= prayMin)) {
         return {
           name: arabicPrayers[key],
-          hour: this.getHour(prayTime),
-          min: this.getMin(prayTime)
+          hour: prayHour,
+          min: prayMin
         };
       }
     }
@@ -123,6 +128,8 @@ export class PrayerBoxComponent implements OnInit {
 
   handleEvent(event: CountdownEvent): void {
     if (event.status === 3) {
+      this.logger.debug(event);
+      this.logger.debug(`pray time is now`);
       this.prayTimeNow = true;
     }
   }

@@ -10,7 +10,7 @@
       <text x="50%" y="70%" text-anchor="middle" dy=".3em" *ngIf="prayTimeNow">حان الان موعد الصلاه</text>
     </svg>
     <div class="absolute">-
-      <countdown *ngIf="!prayTimeNow" #cd [config]="{leftTime: leftTime}" (event)="handleEvent($event)"></countdown>
+      <countdown *ngIf="!prayTimeNow" [config]="{leftTime: leftTime}" (event)="handleEvent($event)"></countdown>
     </div>
   </div>
 
