@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PrayerService} from '../services/prayer.service';
 import {Pray} from '../model/pray';
+import {CountdownEvent} from 'ngx-countdown';
 
 @Component({
   selector: 'app-prayer-box',
@@ -15,12 +16,11 @@ export class PrayerBoxComponent implements OnInit {
   hour: number;
   min: number;
   mood: string;
-  rSec: number;
-  rMin: number;
-  rHour: number;
   prayTimeNow: boolean;
+  leftTime: number;
 
   constructor(private prayer: PrayerService) {
+    this.leftTime = 0;
   }
 
   ngOnInit(): void {
@@ -57,38 +57,12 @@ export class PrayerBoxComponent implements OnInit {
     date.setHours(nextPray.hour, nextPray.min);
     const countDownDate = date.getTime();
 
-
-    const timer = setInterval(() => {
-
-      // Get today's date and time
-      const now = new Date().getTime();
-
-      // Find the distance between now and the count down date
-      const distance = countDownDate - now;
-
-      // Time calculations for days, hours, minutes and seconds
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      // Display the result in the element with id="demo"
-      this.displayRemianTime(hours, minutes, seconds);
-      this.prayTimeNow = false;
-      // If the count down is finished, write some text
-      if (distance < 0) {
-        clearInterval(timer);
-        this.prayTimeNow = true;
-        this.displayRemianTime(0, 0, 0);
-      }
-    }, 1000);
-
+    const now = new Date().getTime();
+    const distance = countDownDate - now;
+    this.leftTime = distance / 1000;
+    this.prayTimeNow = false;
   }
 
-  private displayRemianTime(hours: number, minutes: number, seconds: number): void {
-    this.rHour = hours;
-    this.rMin = minutes;
-    this.rSec = seconds;
-  }
 
   private getHijreDate(hijriData): string {
     const day = hijriData.weekday.ar;
@@ -144,5 +118,12 @@ export class PrayerBoxComponent implements OnInit {
       hour: this.getHour(praytime),
       min: this.getMin(praytime)
     };
+  }
+
+
+  handleEvent(event: CountdownEvent): void {
+    if (event.status === 3) {
+      this.prayTimeNow = true;
+    }
   }
 }

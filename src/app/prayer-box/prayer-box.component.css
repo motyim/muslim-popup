@@ -1,3 +1,11 @@
 .prayer p {
     font-size: 11px;
 }
+.prayer .relative{
+  position: relative;
+}
+.prayer .absolute{
+  position: absolute;
+  top: 63%;
+  left: 32%;
+}
