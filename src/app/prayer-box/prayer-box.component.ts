@@ -19,8 +19,10 @@ export class PrayerBoxComponent implements OnInit {
   mood: string;
   prayTimeNow: boolean;
   leftTime: number;
+  private marginTime: number;
 
   constructor(private prayer: PrayerService, private logger: NGXLogger) {
+    this.marginTime = 5;
   }
 
   ngOnInit(): void {
@@ -42,7 +44,6 @@ export class PrayerBoxComponent implements OnInit {
           nextPray = this.getFirstPraySecondDay(res.data[day].timings);
           // TODO : handle if the last day in month
         }
-
         this.printPrayInfo(nextPray);
       });
     });
@@ -56,15 +57,23 @@ export class PrayerBoxComponent implements OnInit {
 
     // set remain time
     const date = new Date();
+    this.logger.debug('next day ' + nextPray.nextDay , date.getDate());
+    if (nextPray.nextDay) {
+      date.setDate(date.getDate() + 1);
+    }
     date.setHours(nextPray.hour, nextPray.min, 0);
     const countDownDate = date.getTime();
 
     const now = new Date().getTime();
     const distance = countDownDate - now;
-    this.logger.debug(`distance time :  ${distance}`);
-    this.leftTime = distance / 1000;
-    this.logger.debug(`left time : ${this.leftTime}`);
-    this.prayTimeNow = false;
+    if (distance > 0) {
+      this.logger.debug(`distance time :  ${distance}`);
+      this.leftTime = distance / 1000;
+      this.logger.debug(`left time : ${this.leftTime}`);
+      this.prayTimeNow = false;
+    } else {
+      this.prayTimeNow = true;
+    }
   }
 
 
@@ -94,11 +103,12 @@ export class PrayerBoxComponent implements OnInit {
 
       this.logger.debug(`hours:${hours},prayHour:${prayHour},mins:${mins},prayMin:${prayMin}`);
       this.logger.debug(hours < prayHour || (hours === prayHour && mins <= prayMin));
-      if (hours < prayHour || (hours === prayHour && mins <= prayMin)) {
+      if (hours < prayHour || (hours === prayHour && mins <= prayMin + this.marginTime)) {
         return {
           name: arabicPrayers[key],
           hour: prayHour,
-          min: prayMin
+          min: prayMin,
+          nextDay: false
         };
       }
     }
@@ -119,9 +129,10 @@ export class PrayerBoxComponent implements OnInit {
     const key = 'Fajr';
     const praytime = timings[key];
     return {
-      name: 'الفجر ( غدا )',
+      name: 'الفجر - غدا',
       hour: this.getHour(praytime),
-      min: this.getMin(praytime)
+      min: this.getMin(praytime),
+      nextDay: true
     };
   }
 
