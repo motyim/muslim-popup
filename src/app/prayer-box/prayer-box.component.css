@@ -1,10 +1,35 @@
-.prayer p {
-    font-size: 11px;
+.alert {
+  text-align: center;
+  background-color: #fafafa;
+  border-radius: 15px;
+  border-right: 3px solid #3092fc;
+  border-left: 3px solid #3092fc;
+  padding: 3px;
+  cursor: pointer;
+  display: block;
 }
-.prayer .relative{
+
+.alert span {
+  float: left;
+  color: #3092fc;
+}
+
+.alert p {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  color: #3092fc;
+}
+
+.prayer p {
+  font-size: 11px;
+}
+
+.prayer .relative {
   position: relative;
 }
-.prayer .absolute{
+
+.prayer .absolute {
   position: absolute;
   top: 63%;
   left: 32%;

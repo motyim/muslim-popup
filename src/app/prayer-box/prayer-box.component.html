@@ -1,3 +1,7 @@
+<a class="alert" [href]="holidayURL" target="_blank" *ngIf="holidays">
+  <span><fa-icon [icon]="faStarAndCrescent"></fa-icon></span>
+  <p>{{holidays}}</p>
+</a>
 <div class=prayer>
   <p>{{arabicDate}} | {{engDate}}</p>
   <div class="relative">
